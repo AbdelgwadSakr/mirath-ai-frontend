@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Theme Tokens ===== */
+:root {
+  --bg-1: 236 253 245;   /* mint */
+  --bg-2: 224 242 254;   /* sky */
+  --bg-3: 250 245 255;   /* violet */
+}
+
+/* خلفية الموقع بالكامل */
+body {
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgb(var(--bg-1)) 0%, transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, rgb(var(--bg-2)) 0%, transparent 55%),
+    radial-gradient(1000px 700px at 50% 90%, rgb(var(--bg-3)) 0%, transparent 60%),
+    linear-gradient(180deg, #0b1220 0%, #f8fafc 55%);
+  min-height: 100vh;
+}
+
+/* ===== UI Helpers ===== */
+.card {
+  @apply rounded-2xl border border-white/40 bg-white/70 backdrop-blur shadow;
+}
+
+.btn-primary {
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-medium text-white;
+  background: linear-gradient(135deg, #0ea5e9 0%, #22c55e 100%);
+}
+
+.btn-primary:hover {
+  filter: brightness(0.97);
+}
+
+.btn-secondary {
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-2xl
+    border border-white/50 bg-white/50 backdrop-blur
+    font-medium hover:bg-white/70;
+}

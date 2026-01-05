@@ -1,0 +1,27 @@
+{
+    "appName": "Mirath AI",
+    "nav": {
+      "home": "Home",
+      "inheritance": "Case Calculator",
+      "assistant": "Smart Assistant",
+      "login": "Login"
+    },
+    "home": {
+      "title": "An intelligent platform for Islamic inheritance calculation",
+      "subtitle": "Supports the four madhhabs and the majority opinion with clear reasoning and references.",
+      "startCase": "Calculate a case",
+      "smartAssistant": "Smart assistant",
+      "features": {
+        "schoolsTitle": "Multiple schools",
+        "schoolsDesc": "Hanafi, Maliki, Shafi‘i, Hanbali, and majority opinion.",
+        "clarityTitle": "Transparent reasoning",
+        "clarityDesc": "Clear explanation of each heir’s entitlement.",
+        "scaleTitle": "Scalable",
+        "scaleDesc": "Multilingual, extensible, and ready for global use."
+      }
+    },
+    "footer": {
+      "note": "Note: This system provides rule-based calculations and is not a religious fatwa."
+    }
+  }
+  
