@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://localhost:7164/api",
+  // لازم تكون الدومين بس في Vercel env (بدون /health)
+  // مثال: https://xxxxx.up.railway.app
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
 });
 
 api.interceptors.request.use((config) => {
