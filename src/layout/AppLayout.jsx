@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Home, Calculator, Bot, Languages, LogIn } from "lucide-react";
+import { Home, Calculator, Bot, Languages, LogIn, BookOpenText } from "lucide-react";
+
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
@@ -59,6 +60,8 @@ export default function AppLayout({ children }) {
             <NavItem to="/" icon={Home}>{t("nav.home")}</NavItem>
             <NavItem to="/inheritance" icon={Calculator}>{t("nav.inheritance")}</NavItem>
             <NavItem to="/assistant" icon={Bot}>{t("nav.assistant")}</NavItem>
+            <NavItem to="/rules" icon={BookOpenText}>{t("nav.rules")}</NavItem>
+
           </nav>
 
           <div className="flex items-center gap-2">
@@ -98,6 +101,9 @@ export default function AppLayout({ children }) {
             <NavItem to="/" icon={Home}>{t("nav.home")}</NavItem>
             <NavItem to="/inheritance" icon={Calculator}>{t("nav.inheritance")}</NavItem>
             <NavItem to="/assistant" icon={Bot}>{t("nav.assistant")}</NavItem>
+            <NavItem to="/rules" icon={BookOpenText}>{t("nav.rules")}</NavItem>
+
+
           </div>
         </div>
       </header>

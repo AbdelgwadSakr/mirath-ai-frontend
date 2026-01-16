@@ -134,6 +134,8 @@ export default function Inheritance() {
   /* ---------- Heirs ---------- */
   const [deceasedGender, setDeceasedGender] = useState("male");
   const [wivesCount, setWivesCount] = useState(0);
+  const [hasHusband, setHasHusband] = useState(false);
+
 
   const [sons, setSons] = useState(0);
   const [daughters, setDaughters] = useState(0);
@@ -156,6 +158,10 @@ export default function Inheritance() {
   useEffect(() => {
     if (deceasedGender === "female" && wivesCount !== 0) setWivesCount(0);
   }, [deceasedGender, wivesCount]);
+  useEffect(() => {
+    if (deceasedGender === "male" && hasHusband) setHasHusband(false);
+  }, [deceasedGender, hasHusband]);
+  
 
   const onCalculate = () => {
     const payload = {
@@ -173,6 +179,8 @@ export default function Inheritance() {
 
       deceasedGender,
       wivesCount: deceasedGender === "male" ? wivesCount : 0,
+      hasHusband: deceasedGender === "female" ? hasHusband : false,
+
 
       sons,
       daughters,
@@ -286,6 +294,18 @@ export default function Inheritance() {
               <div className="text-xs text-gray-500">المتوفاة أنثى → عدد الزوجات = 0 تلقائيًا</div>
             )}
           </Field>
+          {deceasedGender === "female" && (
+  <Field label={isArabic ? "هل للمتوفاة زوج؟" : "Husband exists?"}>
+    <Select
+      value={hasHusband}
+      onChange={(e) => setHasHusband(e.target.value === "true")}
+    >
+      <option value="false">{isArabic ? "لا" : "No"}</option>
+      <option value="true">{isArabic ? "نعم" : "Yes"}</option>
+    </Select>
+  </Field>
+)}
+
 
           <div className="grid md:grid-cols-2 gap-4">
             <Field label={isArabic ? "عدد الأبناء الذكور" : "Sons"}>

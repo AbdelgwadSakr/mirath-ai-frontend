@@ -1,16 +1,14 @@
 import axios from "axios";
 
+const base = import.meta.env.VITE_API_URL || "https://localhost:7164";
+
 const api = axios.create({
-  // لازم تكون الدومين بس في Vercel env (بدون /health)
-  // مثال: https://xxxxx.up.railway.app
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  baseURL: `${base}/api`,
 });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 

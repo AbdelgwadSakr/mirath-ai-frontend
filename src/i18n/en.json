@@ -1,27 +1,99 @@
 {
-    "appName": "Mirath AI",
-    "nav": {
-      "home": "Home",
-      "inheritance": "Case Calculator",
-      "assistant": "Smart Assistant",
-      "login": "Login"
+  "appName": "Mirath AI",
+
+  "nav": {
+    "home": "Home",
+    "inheritance": "Case Calculator",
+    "assistant": "Smart Assistant",
+    "rules": "Rules Guide",
+    "login": "Login"
+  },
+
+  "home": {
+    "title": "An intelligent platform for Islamic inheritance calculation",
+    "subtitle": "An educational system for calculating estate distribution according to the rules of Islamic inheritance law.",
+    "startCase": "Calculate a case",
+    "smartAssistant": "Smart assistant",
+    "notice": "This project is for educational and calculation purposes only and does not replace consulting a qualified scholar.",
+
+    "features": {
+      "accuracyTitle": "Accurate inheritance calculation",
+      "accuracyDesc": "The system calculates heirs’ shares according to the rules of Islamic inheritance, considering exclusion, awl, and radd.",
+      "schoolsTitle": "Majority opinion",
+      "schoolsDesc": "The system follows the rules adopted by the majority of Islamic scholars in inheritance matters.",
+      "clarityTitle": "Clarity and transparency",
+      "clarityDesc": "Results are presented clearly, including percentages, amounts, and reasons for entitlement."
     },
-    "home": {
-      "title": "An intelligent platform for Islamic inheritance calculation",
-      "subtitle": "Supports the four madhhabs and the majority opinion with clear reasoning and references.",
-      "startCase": "Calculate a case",
-      "smartAssistant": "Smart assistant",
-      "features": {
-        "schoolsTitle": "Multiple schools",
-        "schoolsDesc": "Hanafi, Maliki, Shafi‘i, Hanbali, and majority opinion.",
-        "clarityTitle": "Transparent reasoning",
-        "clarityDesc": "Clear explanation of each heir’s entitlement.",
-        "scaleTitle": "Scalable",
-        "scaleDesc": "Multilingual, extensible, and ready for global use."
-      }
+
+    "howItWorks": {
+      "title": "How does the system work?",
+      "step1Title": "Enter estate details",
+      "step1Desc": "Specify cash, gold, real estate, or land to be distributed.",
+      "step2Title": "Define the heirs",
+      "step2Desc": "Select the deceased’s gender and accurately enter the existing heirs.",
+      "step3Title": "View the result",
+      "step3Desc": "Display heirs’ shares with percentages, amounts, and jurisprudential evidence."
     },
-    "footer": {
-      "note": "Note: This system provides rule-based calculations and is not a religious fatwa."
-    }
+
+    "footer": "This project was built for learning and practical application of inheritance rules. In real cases, consulting scholars is always recommended."
+  },
+
+  "rules": {
+    "title": "Explanation of Islamic Inheritance Rules",
+    "subtitle": "A simplified overview of the main rules used by the system to calculate inheritance.",
+
+    "whatIs": {
+      "title": "What is Ilm al-Fara'id?",
+      "desc": "Ilm al-Fara'id is the science that explains how an estate is distributed among rightful heirs according to Islamic law."
+    },
+
+    "fard": {
+      "title": "Fixed-share heirs",
+      "mother": "Mother: inherits one-third or one-sixth depending on the presence of descendants or siblings.",
+      "father": "Father: inherits one-sixth with descendants, or the remainder as an agnate.",
+      "spouse": "Husband or wife: each has fixed shares depending on the presence of descendants.",
+      "daughters": "Daughters: inherit one-half or two-thirds when there is no son."
+    },
+
+    "asabah": {
+      "title": "Agnatic inheritance (Asabah)",
+      "desc": "Agnatic inheritance means taking the remainder of the estate after fixed shares, where a male receives twice the share of a female."
+    },
+
+    "blocking": {
+      "title": "Exclusion (Blocking)",
+      "father": "The presence of the father excludes siblings from inheritance.",
+      "sons": "The presence of a son excludes brothers and sisters from inheritance."
+    },
+
+    "awlRadd": {
+      "title": "Awl and Radd",
+      "awl": "Awl: If the fixed shares exceed the estate, all shares are proportionally reduced.",
+      "radd": "Radd: If part of the estate remains, it is returned to the fixed-share heirs (except spouses)."
+    },
+
+    "notice": "This explanation is for educational purposes only and is not a religious ruling (fatwa)."
+  },
+
+  "results": {
+    "title": "Inheritance Distribution Result",
+    "madhhab": "School",
+    "hanafi": "Hanafi",
+    "jumhur": "Majority opinion",
+    "totalEstate": "Total estate",
+    "notice": "Note: This is an educational calculation result and not a religious fatwa.",
+    "brief": "Summary",
+    "detailed": "Detailed",
+    "reason": "Reason",
+    "evidence": "Religious evidence",
+    "downloadPdf": "Download PDF",
+    "newCase": "New case",
+    "back": "Back",
+    "errorsTitle": "Data issues",
+    "noHeirs": "No heirs were entered"
+  },
+
+  "footer": {
+    "note": "Note: This system provides rule-based calculations and does not constitute a religious fatwa."
   }
-  
+}

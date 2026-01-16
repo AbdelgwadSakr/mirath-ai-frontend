@@ -2,9 +2,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, RefreshCw, AlertTriangle, Download } from "lucide-react";
 import { useState, useRef } from "react";
 import html2pdf from "html2pdf.js";
+import { useTranslation } from "react-i18next";
+
 
 /* ================= الأدلة الشرعية المكتوبة ================= */
 const EVIDENCE = {
+  husband: `
+قال الله تعالى:
+"وَلَكُمْ نِصْفُ مَا تَرَكَ أَزْوَاجُكُمْ إِن لَّمْ يَكُن لَّهُنَّ وَلَدٌ
+فَإِن كَانَ لَهُنَّ وَلَدٌ فَلَكُمُ الرُّبُعُ"
+(سورة النساء: 12)
+`,
+
   wife: `
 قال الله تعالى:
 "وَلَهُنَّ الرُّبُعُ مِمَّا تَرَكْتُمْ إِن لَّمْ يَكُن لَّكُمْ وَلَدٌ ۚ
@@ -56,6 +65,7 @@ const EVIDENCE = {
 };
 
 export default function Results() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const payload = location.state?.payload;
@@ -90,6 +100,9 @@ export default function Results() {
   if (totalEstate <= 0) errors.push("لازم تدخل قيمة للتركة (مال/ذهب/عقار/أرض)");
   if (payload.deceasedGender === "female" && num(payload.wivesCount) > 0)
     errors.push("المتوفاة أنثى → لا يمكن إدخال زوجات");
+  if (payload.deceasedGender === "male" && payload.hasHusband)
+    errors.push("المتوفى ذكر → لا يمكن إدخال زوج");
+  
 
   const anyHeir =
     num(payload.wivesCount) > 0 ||
@@ -123,6 +136,20 @@ export default function Results() {
   let remaining = 1;
   let results = [];
 
+
+  /* ===== الزوج (لو المتوفاة أنثى) ===== */
+if (payload.hasHusband) {
+  const share = hasDescendants ? 1 / 4 : 1 / 2;
+  remaining -= share;
+  results.push({
+    heir: "الزوج",
+    share,
+    reason: hasDescendants ? "وجود فرع وارث" : "عدم وجود فرع وارث",
+    evidence: EVIDENCE.husband,
+  });
+}
+
+
   /* ===== الزوجات ===== */
   if (num(payload.wivesCount) > 0) {
     const share = hasDescendants ? 1 / 8 : 1 / 4;
@@ -136,16 +163,37 @@ export default function Results() {
   }
 
   /* ===== الأم ===== */
-  if (hasMother) {
-    const share = hasDescendants ? 1 / 6 : 1 / 3;
-    remaining -= share;
-    results.push({
-      heir: "الأم",
-      share,
-      reason: hasDescendants ? "وجود فرع وارث" : "عدم وجود فرع وارث",
-      evidence: EVIDENCE.mother,
-    });
+  /* ===== الأم ===== */
+/* ===== الأم ===== */
+if (hasMother) {
+  let share;
+
+  const hasSiblingsGroup = brothers + sisters >= 2;
+
+  if (!hasDescendants && hasFather && payload.hasHusband) {
+    // المسألة العمرية
+    share = remaining / 3;
+  } else if (hasDescendants || hasSiblingsGroup) {
+    // وجود فرع وارث أو جمع من الإخوة
+    share = 1 / 6;
+  } else {
+    // الحالة العادية
+    share = 1 / 3;
   }
+
+  remaining -= share;
+  results.push({
+    heir: "الأم",
+    share,
+    reason: hasDescendants
+      ? "وجود فرع وارث"
+      : hasSiblingsGroup
+      ? "وجود جمع من الإخوة"
+      : "عدم وجود فرع وارث ولا جمع إخوة",
+    evidence: EVIDENCE.mother,
+  });
+}
+
 
   /* ===== البنات فقط (بدون أبناء) ===== */
   if (sons === 0 && daughters > 0) {
@@ -172,7 +220,7 @@ export default function Results() {
   }
 
   /* ===== الأولاد (ابن/بنت) ===== */
-  if (hasDescendants && remaining > 0) {
+  if (sons > 0 && remaining > 0) {
     const units = sons * 2 + daughters; // للذكر مثل حظ الأنثيين
     if (units > 0) {
       if (sons > 0) {
@@ -291,23 +339,34 @@ export default function Results() {
       {/* الجزء اللي هيتطبع PDF */}
       <div ref={pdfRef} dir="rtl" style={{ fontFamily: "Tahoma, Arial" }} className="space-y-6">
         <div className="card p-6">
-          <h1 className="text-2xl font-extrabold">نتيجة تقسيم الميراث</h1>
-          <p className="text-gray-600">
-            المذهب: {madhhab === "hanafi" ? "حنفي" : "رأي الجمهور"}
-          </p>
-          <p className="text-gray-600">إجمالي التركة: {totalEstate.toLocaleString()}</p>
-          <p className="text-xs text-gray-500 mt-2">
-            تنبيه: هذا ناتج حسابي تعليمي وليس فتوى شرعية.
-          </p>
+        <h1 className="text-2xl font-extrabold">
+  {t("results.title")}
+</h1>
+
+<p className="text-gray-600">
+  {t("results.madhhab")}:{" "}
+  {madhhab === "hanafi" ? t("results.hanafi") : t("results.jumhur")}
+</p>
+
+<p className="text-gray-600">
+  {t("results.totalEstate")}: {totalEstate.toLocaleString()}
+</p>
+
+<p className="text-xs text-gray-500 mt-2">
+  تنبيه: هذا ناتج حسابي تعليمي وليس فتوى شرعية.
+</p>
+
         </div>
 
         <div className="card p-4 flex gap-3">
-          <button onClick={() => setView("brief")} className="btn-secondary">
-            مختصر
-          </button>
-          <button onClick={() => setView("detailed")} className="btn-secondary">
-            تفصيلي
-          </button>
+        <button onClick={() => setView("brief")} className="btn-secondary">
+  {t("results.brief")}
+</button>
+
+<button onClick={() => setView("detailed")} className="btn-secondary">
+{t("results.detailed")}
+</button>
+
         </div>
 
         <div className="card p-6">
@@ -323,11 +382,13 @@ export default function Results() {
               {view === "detailed" && (
                 <div className="mt-3 text-sm space-y-2">
                   <div>
-                    <b>السبب:</b> {r.reason}
+                  <b>{t("results.reason")}:</b>
+                  {r.reason}
                   </div>
 
                   <div className="bg-gray-50 border rounded-xl p-3 whitespace-pre-line leading-relaxed">
-                    <b>الدليل الشرعي:</b>
+                  <b>{t("results.evidence")}:</b>
+
                     <div className="mt-2">{r.evidence}</div>
                   </div>
 
@@ -341,16 +402,18 @@ export default function Results() {
 
       {/* أزرار خارج الـ PDF */}
       <div className="flex flex-wrap gap-3">
-        <button className="btn-primary" onClick={downloadPdf}>
-          <Download size={18} /> تحميل PDF
-        </button>
+      <button className="btn-primary" onClick={downloadPdf}>
+  <Download size={18} /> {t("results.downloadPdf")}
+</button>
 
-        <button className="btn-secondary" onClick={() => navigate("/inheritance")}>
-          <RefreshCw size={18} /> مسألة جديدة
-        </button>
-        <button className="btn-secondary" onClick={() => navigate(-1)}>
-          <ArrowLeft size={18} /> رجوع
-        </button>
+<button className="btn-secondary" onClick={() => navigate("/inheritance")}>
+  <RefreshCw size={18} /> {t("results.newCase")}
+</button>
+
+<button className="btn-secondary" onClick={() => navigate(-1)}>
+  <ArrowLeft size={18} /> {t("results.back")}
+</button>
+
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Results from "./pages/Results";
 import RequireAuth from "./auth/RequireAuth";
+import InheritanceRules from "./pages/InheritanceRules";
 
 function App() {
   return (
@@ -79,6 +80,16 @@ function App() {
             </AppLayout>
           }
         />
+
+<Route
+  path="/rules"
+  element={
+    <AppLayout>
+      <InheritanceRules />
+    </AppLayout>
+  }
+/>
+
       </Routes>
     </BrowserRouter>
   );
